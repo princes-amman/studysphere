@@ -1,0 +1,71 @@
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 30px;
+  background: plum;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-radius: 0 0 12px 12px; /* smooth bottom edges */
+}
+
+/* Logo */
+.logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  background: transparent; /* removes white background look */
+}
+
+/* Nav links container */
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+/* Each link */
+.nav-links a {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  color:black;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+/* Hover underline effect */
+.nav-links a::after {
+  
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background: blue; /* soft pink underline */
+  transition: width 1.3s ease-in-out;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Hover text color */
+.nav-links a:hover {
+  color: blue;
+  transition:1ms;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column; /* ✅ fixed */
+  cursor: pointer;
+  gap: 5px;
+}

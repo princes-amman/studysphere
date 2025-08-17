@@ -1,0 +1,92 @@
+/* Container centers everything */
+.signin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: white; 
+}
+
+/* Card style */
+.signin-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  width: 350px;
+  text-align: center;
+}
+
+/* Title & subtitle */
+.signin-title {
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: black; /* deep plum */
+}
+.signin-subtitle {
+  margin-bottom: 25px;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Form fields */
+.form-group {
+  text-align: left;
+  margin-bottom: 18px;
+}
+.form-group label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 6px;
+}
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Button */
+.signin-btn {
+  background-color: plum;
+  color: black;
+  padding: 12px;
+  border: none;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.signin-btn:hover {
+  background-color: #8e24aa; /* darker plum */
+  color: white;
+}
+
+/* Footer */
+.signin-footer {
+  margin-top: 20px;
+  font-size: 14px;
+}
+.signin-footer a {
+  color: #8e24aa;
+  font-weight: bold;
+  text-decoration: none;
+}
+.signin-footer a:hover {
+  text-decoration: underline;
+}
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+

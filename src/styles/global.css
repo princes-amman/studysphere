@@ -1,0 +1,72 @@
+/* Reset & base style */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color:white; 
+  color:black;
+}
+
+/* Navbar */
+.navbar {
+  background-color: plum; /* dark pink */
+  padding: 12px 20px;
+  display: flex;
+  gap: 20px;
+}
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+/* Main content container */
+.page-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: white; /* very light pink */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+button {
+  background-color: plum !important; 
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  color: black !important;
+  font-weight: bold;
+}
+button:hover {
+  background-color:blue; /* slightly darker pink */
+}
+
+/* Inputs & textarea */
+input[type="text"], textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* Question cards */
+.question-card {
+  background-color: white; /* very light pink */
+  padding: 15px;
+  border: 1px solid #f8bbd0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
