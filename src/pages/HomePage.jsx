@@ -80,7 +80,7 @@ function HomePage({ questions, setQuestions }) {
               <div className="answers">
                 {q.answers.map((ans, i) => (
                   <div key={i} className="answer-card">
-                    <p className="answer">💬 {ans.text}</p>
+                    <p className="answer"> {ans.text}</p>
                     <button
                       className="like-btn small-btn"
                       onClick={() => handleAnswerLike(q.id, i)}
