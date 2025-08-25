@@ -1,45 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/HomePage.css";
 
-function HomePage({ questions, setQuestions }) {
+function HomePage() {
   const navigate = useNavigate();
-  const [newAnswer, setNewAnswer] = useState({}); // store new answers per question
+  const [questions, setQuestions] = useState([]);
+  const [newAnswer, setNewAnswer] = useState({}); // answers per question
+
+  // 🔄 Fetch questions from backend
+  const fetchQuestions = () => {
+    axios.get("http://localhost:5000/questions")
+      .then((res) => setQuestions(res.data))
+      .catch((err) => console.error("Error fetching questions:", err));
+  };
+
+  useEffect(() => {
+    fetchQuestions(); // load on first render
+  }, []);
 
   // ✅ Like a question
   const handleLike = (id) => {
-    setQuestions(
-      questions.map((q) =>
-        q.id === id ? { ...q, likes: q.likes + 1 } : q
-      )
-    );
-  };
-
-  // ✅ Like an answer
-  const handleAnswerLike = (qId, ansIndex) => {
-    setQuestions(
-      questions.map((q) =>
-        q.id === qId
-          ? {
-              ...q,
-              answers: q.answers.map((ans, i) =>
-                i === ansIndex ? { ...ans, likes: ans.likes + 1 } : ans
-              ),
-            }
-          : q
-      )
-    );
+    axios.post(`http://localhost:5000/questions/${id}/like`)
+      .then(() => fetchQuestions()); // reload all questions
   };
 
   // ✅ Post an answer
   const handlePostAnswer = (qId, text) => {
-    setQuestions(
-      questions.map((q) =>
-        q.id === qId
-          ? { ...q, answers: [...q.answers, { text, likes: 0 }] }
-          : q
-      )
-    );
+    axios.post(`http://localhost:5000/questions/${qId}/answers`, { text })
+      .then(() => {
+        fetchQuestions(); // reload all questions
+        setNewAnswer({ ...newAnswer, [qId]: "" }); // clear input
+      });
   };
 
   return (
@@ -63,15 +55,13 @@ function HomePage({ questions, setQuestions }) {
       <section className="questions-section">
         <h2 className="section-title">📌 Recent Questions</h2>
         {questions.length === 0 ? (
-          <p className="no-questions">
-            No questions posted yet. Be the first to ask!
-          </p>
+          <p className="no-questions">No questions posted yet. Be the first to ask!</p>
         ) : (
           questions.map((q) => (
             <div key={q.id} className="question-card">
               <p className="question-text">❓ {q.text}</p>
 
-              {/* Like button for question */}
+              {/* Like button */}
               <button className="like-btn" onClick={() => handleLike(q.id)}>
                 👍 Like ({q.likes})
               </button>
@@ -80,13 +70,8 @@ function HomePage({ questions, setQuestions }) {
               <div className="answers">
                 {q.answers.map((ans, i) => (
                   <div key={i} className="answer-card">
-                    <p className="answer"> {ans.text}</p>
-                    <button
-                      className="like-btn small-btn"
-                      onClick={() => handleAnswerLike(q.id, i)}
-                    >
-                      👍 {ans.likes}
-                    </button>
+                    <p className="answer">{ans.text}</p>
+                    <span>👍 {ans.likes}</span>
                   </div>
                 ))}
               </div>
@@ -105,7 +90,6 @@ function HomePage({ questions, setQuestions }) {
                   onClick={() => {
                     if (newAnswer[q.id]?.trim()) {
                       handlePostAnswer(q.id, newAnswer[q.id]);
-                      setNewAnswer({ ...newAnswer, [q.id]: "" });
                     }
                   }}
                 >

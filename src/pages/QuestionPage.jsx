@@ -1,40 +1,49 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/QuestionPage.css"
+import axios from "axios";
+import "../styles/QuestionPage.css";
+
 function QuestionPage({ questions, setQuestions }) {
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState({});
   const navigate = useNavigate();
 
-  // Add a new question
-  const postQuestion = () => {
+  // ✅ Add a new question to backend
+  const postQuestion = async () => {
     if (!newQuestion.trim()) return;
-    setQuestions([
-      ...questions,
-      { id: Date.now(), text: newQuestion, answers: [], likes: 0 }
-    ]);
+
+    const res = await axios.post("http://localhost:5000/questions", {
+      text: newQuestion,
+    });
+
+    setQuestions([...questions, res.data]); // update state with backend response
     setNewQuestion("");
+    navigate("/"); // redirect to home after posting
   };
 
-  // Add an answer
-  const postAnswer = (id) => {
+  // ✅ Add an answer to backend
+  const postAnswer = async (id) => {
     if (!newAnswer[id]?.trim()) return;
+
+    const res = await axios.post(
+      `http://localhost:5000/questions/${id}/answers`,
+      { text: newAnswer[id] }
+    );
+
     setQuestions(
-      questions.map((q) =>
-        q.id === id
-          ? { ...q, answers: [...q.answers, newAnswer[id]] }
-          : q
-      )
+      questions.map((q) => (q.id === id ? res.data : q)) // replace updated question
     );
     setNewAnswer({ ...newAnswer, [id]: "" });
   };
 
-  // Like a question
-  const likeQuestion = (id) => {
+  // ✅ Like a question
+  const likeQuestion = async (id) => {
+    const res = await axios.post(
+      `http://localhost:5000/questions/${id}/like`
+    );
+
     setQuestions(
-      questions.map((q) =>
-        q.id === id ? { ...q, likes: q.likes + 1 } : q
-      )
+      questions.map((q) => (q.id === id ? res.data : q))
     );
   };
 
@@ -48,27 +57,20 @@ function QuestionPage({ questions, setQuestions }) {
         rows="3"
         style={{ width: "100%" }}
       />
-      <button onClick={postQuestion} >
-        Post Question
-      </button>
+      <button onClick={postQuestion}>Post Question</button>
 
-      <button
-        
-        onClick={() => navigate("/subject")}
-      >
-        📚 Go to Subject
-      </button>
+      <button onClick={() => navigate("/subject")}>📚 Go to Subject</button>
 
       <h2>All Questions</h2>
       {questions.map((q) => (
-        <div key={q.id} >
+        <div key={q.id}>
           <p>❓ {q.text}</p>
           <p>
             👍 {q.likes}{" "}
             <button onClick={() => likeQuestion(q.id)}>Like</button>
           </p>
           {q.answers.map((ans, i) => (
-            <p key={i}>💬 {ans}</p>
+            <p key={i}>💬 {ans.text}</p> // ✅ updated to ans.text (since backend stores {text, likes})
           ))}
 
           <input
